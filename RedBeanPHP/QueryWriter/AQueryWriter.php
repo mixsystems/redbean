@@ -789,9 +789,9 @@ abstract class AQueryWriter
 	 *
 	 * @return integer
 	 */
-	protected function insertRecord( $type, $insertcolumns, $insertvalues )
+	protected function insertRecord( $type, $insertcolumns, $insertvalues, $id = NULL )
 	{
-		$default = $this->defaultValue;
+		$default = $id ?? $this->defaultValue;
 		$suffix  = $this->getInsertSuffix( $type );
 		$table   = $this->esc( $type );
 
@@ -927,11 +927,11 @@ abstract class AQueryWriter
 	/**
 	 * @see QueryWriter::updateRecord
 	 */
-	public function updateRecord( $type, $updatevalues, $id = NULL )
+	public function updateRecord( $type, $updatevalues, $id = NULL, $forceInsert = FALSE )
 	{
 		$table = $type;
 
-		if ( !$id ) {
+		if ( !$id || $forceInsert ) {
 			$insertcolumns = $insertvalues = array();
 
 			foreach ( $updatevalues as $pair ) {
@@ -940,7 +940,7 @@ abstract class AQueryWriter
 			}
 
 			//Otherwise psql returns string while MySQL/SQLite return numeric causing problems with additions (array_diff)
-			return (string) $this->insertRecord( $table, $insertcolumns, array( $insertvalues ) );
+			return (string) $this->insertRecord( $table, $insertcolumns, array( $insertvalues ), $id );
 		}
 
 		if ( $id && !count( $updatevalues ) ) {
