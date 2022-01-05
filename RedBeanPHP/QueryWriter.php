@@ -429,7 +429,7 @@ interface QueryWriter
 	 * This methods accepts a type and infers the corresponding table name.
 	 *
 	 * @param string $type               target bean type
-	 * @param array  $columnsPartOfIndex columns to include in index
+	 * @param array  $columns columns to include in index
 	 *
 	 * @return void
 	 */
