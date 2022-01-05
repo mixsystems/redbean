@@ -29,6 +29,7 @@ class PostgreSQL extends AQueryWriter implements QueryWriter
 	 */
 	const C_DATATYPE_INTEGER          = 0;
 	const C_DATATYPE_DOUBLE           = 1;
+	const C_DATATYPE_BOOL             = 2;
 	const C_DATATYPE_TEXT             = 3;
 	const C_DATATYPE_SPECIAL_DATE     = 80;
 	const C_DATATYPE_SPECIAL_DATETIME = 81;
@@ -176,6 +177,7 @@ class PostgreSQL extends AQueryWriter implements QueryWriter
 	{
 		$this->typeno_sqltype = array(
 			self::C_DATATYPE_INTEGER          => ' integer ',
+			self::C_DATATYPE_BOOL             => ' boolean ',
 			self::C_DATATYPE_DOUBLE           => ' double precision ',
 			self::C_DATATYPE_TEXT             => ' text ',
 			self::C_DATATYPE_SPECIAL_DATE     => ' date ',
