@@ -134,7 +134,7 @@ interface Driver
 	 * The example above illustrates how to use the RedBeanPHP
 	 * query debugger through the facade.
 	 *
-	 * @param boolean $trueFalse turn on/off
+	 * @param boolean $tf turn on/off
 	 * @param Logger  $logger    logger instance
 	 *
 	 * @return void
