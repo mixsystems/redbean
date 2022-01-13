@@ -67,7 +67,7 @@ class PostgreSQL extends AQueryWriter implements QueryWriter
 			'*' => 'ALTER TABLE %s ADD %s %s '
 		),
 		'createTable' => array(
-			'*' => 'CREATE TABLE %s (id SERIAL PRIMARY KEY) '
+			'*' => 'CREATE TABLE %s (id SERIAL PRIMARY KEY)'
 		),
 		'widenColumn' => array(
 			'*' => 'ALTER TABLE %s ALTER COLUMN %s TYPE %s'
@@ -229,6 +229,7 @@ class PostgreSQL extends AQueryWriter implements QueryWriter
 		$table = $this->esc( $type );
 
 		$this->adapter->exec( sprintf( $this->getDDLTemplate( 'createTable', $type ), $table ) );
+		$this->adapter->exec( sprintf( 'ALTER SEQUENCE %s_id_seq RESTART 2', $type ) );
 	}
 
 	/**
