@@ -791,7 +791,7 @@ abstract class AQueryWriter
 	 */
 	protected function insertRecord( $type, $insertcolumns, $insertvalues, $id = NULL )
 	{
-		$default = $id ?? $this->defaultValue;
+		$default = $id ? $id : $this->defaultValue;
 		$suffix  = $this->getInsertSuffix( $type );
 		$table   = $this->esc( $type );
 
@@ -1279,17 +1279,12 @@ abstract class AQueryWriter
 			$sql = "
 			SELECT
 				{$destTable}.* {$sqlFilterStr} ,
-				COALESCE(
-				NULLIF({$linkTable}.{$sourceCol}, {$destTable}.id),
-				NULLIF({$linkTable}.{$destCol}, {$destTable}.id)) AS linked_by
+				NULLIF({$linkTable}.{$destCol}, {$destTable}.id) AS linked_by
 			FROM {$linkTable}
 			INNER JOIN {$destTable} ON
-			( {$destTable}.id = {$linkTable}.{$destCol} AND {$linkTable}.{$sourceCol} IN ($inClause) ) OR
 			( {$destTable}.id = {$linkTable}.{$sourceCol} AND {$linkTable}.{$destCol} IN ($inClause2) )
 			{$addSql}
 			-- keep-cache";
-
-			$linkIDs = array_merge( $linkIDs, $linkIDs );
 		} else {
 			$sql = "
 			SELECT
