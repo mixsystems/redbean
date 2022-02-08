@@ -84,7 +84,7 @@ class Frozen extends Repository
 				if ( $partial && !in_array( $key, $mask ) ) continue;
 				$updateValues[] = array( $k1 => $key, $k2 => $value );
 			}
-			$bean->id = $this->writer->updateRecord( $table, $updateValues, $id );
+			$bean->id = $this->writer->updateRecord( $table, $updateValues, $id, $bean->getMeta('__newid') ?? false );
 			$bean->setMeta( 'changed', FALSE );
 		}
 		$bean->setMeta( 'tainted', FALSE );
