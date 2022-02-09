@@ -41,8 +41,6 @@ class RDefault implements Logger
 	 * This method will write the message value to STDOUT (screen) unless
 	 * you have changed the mode of operation to C_LOGGER_ARRAY.
 	 *
-	 * @param $message (optional) message to log (might also be data or output)
-	 *
 	 * @return void
 	 */
 	public function log()
