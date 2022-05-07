@@ -83,7 +83,7 @@ class PostgreSQL extends AQueryWriter implements QueryWriter
 	 */
 	protected function getInsertSuffix( $table )
 	{
-		return 'RETURNING id ';
+		return 'ON CONFLICT DO NOTHING RETURNING id ';
 	}
 
 	/**
