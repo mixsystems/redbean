@@ -128,6 +128,11 @@ class OODBBean implements \IteratorAggregate,\ArrayAccess,\Countable,Jsonable
 	protected $via = NULL;
 
 	/**
+	 * @var string
+	 */
+	protected $toSchema = NULL;
+
+	/**
 	 * @var boolean
 	 */
 	protected $noLoad = FALSE;
@@ -353,7 +358,7 @@ class OODBBean implements \IteratorAggregate,\ArrayAccess,\Countable,Jsonable
 		if ($this->getID()) {
 			$type             = $this->beau( $type );
 			$assocManager     = $redbean->getAssociationManager();
-			$beans            = $assocManager->related( $this, $type, $this->withSql, $this->withParams );
+			$beans            = $assocManager->related( $this, $type, $this->withSql, $this->withParams, $this->toSchema );
 		}
 		return $beans;
 	}
@@ -2060,6 +2065,16 @@ class OODBBean implements \IteratorAggregate,\ArrayAccess,\Countable,Jsonable
 	public function via( $via )
 	{
 		$this->via = AQueryWriter::camelsSnake( $via );
+
+		return $this;
+	}
+
+	/**
+	 * Handle manyto* relations across schemas
+	 */
+	public function toSchema( $toSchema )
+	{
+		$this->toSchema = $toSchema;
 
 		return $this;
 	}
