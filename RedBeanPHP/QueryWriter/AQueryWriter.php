@@ -1255,9 +1255,10 @@ abstract class AQueryWriter
 	/**
 	 * @see QueryWriter::queryRecordRelated
 	 */
-	public function queryRecordRelated( $sourceType, $destType, $linkIDs, $addSql = '', $bindings = array() )
+	public function queryRecordRelated( $sourceType, $destType, $linkIDs, $addSql = '', $bindings = array(), $destSchema = '' )
 	{
 		list( $sourceTable, $destTable, $linkTable, $sourceCol, $destCol ) = $this->getRelationalTablesAndColumns( $sourceType, $destType );
+		if($destSchema) $destTable = $destSchema . '.' . $destTable;
 
 		if ( $this->flagUseCache ) {
 			$key = $this->getCacheKey( array( $sourceType, implode( ',', $linkIDs ), trim($addSql), $bindings, 'selectrelated' ) );
