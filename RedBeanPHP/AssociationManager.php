@@ -84,12 +84,12 @@ class AssociationManager extends Observable
 	 *
 	 * @return array
 	 */
-	private function relatedRows( $bean, $type, $sql = '', $bindings = array() )
+	private function relatedRows( $bean, $type, $sql = '', $bindings = array(), $toSchema = '' )
 	{
 		$ids = array( $bean->id );
 		$sourceType = $bean->getMeta( 'type' );
 		try {
-			return $this->writer->queryRecordRelated( $sourceType, $type, $ids, $sql, $bindings );
+			return $this->writer->queryRecordRelated( $sourceType, $type, $ids, $sql, $bindings, $toSchema );
 		} catch ( SQLException $exception ) {
 			$this->handleException( $exception );
 			return array();
@@ -344,10 +344,10 @@ class AssociationManager extends Observable
 	 *
 	 * @return array
 	 */
-	public function related( $bean, $type, $sql = '', $bindings = array() )
+	public function related( $bean, $type, $sql = '', $bindings = array(), $toSchema = '' )
 	{
 		$sql   = $this->writer->glueSQLCondition( $sql );
-		$rows  = $this->relatedRows( $bean, $type, $sql, $bindings );
+		$rows  = $this->relatedRows( $bean, $type, $sql, $bindings, $toSchema );
 		$links = array();
 
 		foreach ( $rows as $key => $row ) {
