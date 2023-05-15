@@ -789,11 +789,12 @@ abstract class AQueryWriter
 	 *
 	 * @return integer
 	 */
-	protected function insertRecord( $type, $insertcolumns, $insertvalues, $id = NULL )
+	protected function insertRecord( $type, $insertcolumns, $insertvalues, $id = NULL, $namespace = NULL )
 	{
 		$default = $id ? $id : $this->defaultValue;
 		$suffix  = $this->getInsertSuffix( $type );
 		$table   = $this->esc( $type );
+		if($namespace) $table = $namespace . '.' . $table;
 
 		if ( count( $insertvalues ) > 0 && is_array( $insertvalues[0] ) && count( $insertvalues[0] ) > 0 ) {
 
@@ -927,7 +928,7 @@ abstract class AQueryWriter
 	/**
 	 * @see QueryWriter::updateRecord
 	 */
-	public function updateRecord( $type, $updatevalues, $id = NULL, $forceInsert = FALSE )
+	public function updateRecord( $type, $updatevalues, $id = NULL, $forceInsert = FALSE, $namespace = NULL )
 	{
 		$table = $type;
 
@@ -940,7 +941,7 @@ abstract class AQueryWriter
 			}
 
 			//Otherwise psql returns string while MySQL/SQLite return numeric causing problems with additions (array_diff)
-			return (string) $this->insertRecord( $table, $insertcolumns, array( $insertvalues ), $id );
+			return (string) $this->insertRecord( $table, $insertcolumns, array( $insertvalues ), $id, $namespace );
 		}
 
 		if ( $id && !count( $updatevalues ) ) {
@@ -948,6 +949,7 @@ abstract class AQueryWriter
 		}
 
 		$table = $this->esc( $table );
+		if($namespace) $table = $namespace . '.' . $table;
 		$sql   = "UPDATE $table SET ";
 
 		$p = $v = array();
