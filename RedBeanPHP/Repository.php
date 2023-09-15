@@ -507,6 +507,7 @@ abstract class Repository
 	public function store( $bean )
 	{
 		$processLists = $this->hasListsOrObjects( $bean );
+		if ( $bean->getID() === '' ) return;
 		if ( !$processLists && !$bean->getMeta( 'tainted' ) ) {
 			return $bean->getID(); //bail out!
 		}
